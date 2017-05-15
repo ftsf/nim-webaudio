@@ -2,6 +2,8 @@
 
 Example code for creating an oscillator that responds to clicks on the screen and fades and changes pitch over time.
 
+[Try it!](https://cdn.rawgit.com/ftsf/nim-webaudio/4588fab0/tests/test.html)
+
 ```nim
 import webaudio
 import dom
