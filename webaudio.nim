@@ -19,6 +19,10 @@ type
     minValue*: float
     value*: float
   AudioParam* = ref AudioParamObj
+  AudioProcessingEventObj = object of Event
+    inputBuffer*: AudioBuffer
+    outputBuffer*: AudioBuffer
+  AudioProcessingEvent* = ref AudioProcessingEventObj
   GainNodeObj {.importc.} = object of AudioNodeObj
     gain*: AudioParam
   GainNode* = ref GainNodeObj
@@ -26,9 +30,14 @@ type
     `type`*: cstring
     frequency*: AudioParam
     detune*: AudioParam
+  ScriptProcessorNodeObj {.importcpp.} = object of AudioNodeObj
+    bufferSize*: int
+    onaudioprocess*: proc(e: AudioProcessingEvent)
   OscillatorNode* = ref OscillatorNodeObj
+  ScriptProcessorNode* = ref ScriptProcessorNodeObj
   AudioNode* = ref AudioNodeObj
   AudioBuffer* {.importc.} = ref object of RootObj
+    length*: int
   AudioBufferSourceNode* {.importc.} = ref object of AudioNodeObj
     buffer*: AudioBuffer
     detune*: float
@@ -46,9 +55,12 @@ proc newAudioContext*(): AudioContext {.importcpp: "new AudioContext()".}
 proc createBufferSource*(context: AudioContext): AudioBufferSourceNode {.importcpp: "#.createBufferSource(@)".}
 proc createGain*(context: AudioContext): GainNode {.importcpp: "#.createGain(@)".}
 proc createOscillator*(context: AudioContext): OscillatorNode {.importcpp: "#.createOscillator(@)".}
+proc createScriptProcessor*(context: AudioContext, bufferSize, inputChannels, outputChannels: int): ScriptProcessorNode {.importcpp: "#.createScriptProcessor(@)".}
 proc createMediaElementSource*(context: AudioContext, el: HtmlElement): MediaElementAudioSourceNode {.importcpp.}
 
-proc createPeriodicWave*(context: AudioContext, real, imag: seq[float], options: JsAssoc): PeriodicWave {.importcpp.}
+proc createPeriodicWave*(context: AudioContext, real, imag: openarray[float], options: JsAssoc = {}): PeriodicWave {.importcpp:"#.createPeriodicWave(Float32Array.from(#), Float32Array.from(#))".}
+
+proc getChannelData*(self: AudioBuffer, channel: int): seq[float32] {.importcpp.}
 
 proc start*(node: AudioNode) {.importcpp:"#.start(@)".}
 proc stop*(node: AudioNode) {.importcpp:"#.stop(@)".}
