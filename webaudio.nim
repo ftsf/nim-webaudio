@@ -67,7 +67,7 @@ proc start*(node: AudioNode) {.importcpp:"#.start(@)".}
 proc stop*(node: AudioNode) {.importcpp:"#.stop(@)".}
 
 proc start*(node: AudioNode, time: float) {.importcpp:"#.start(@,@)".}
-proc stop*(node: AudioNode, time: float) {.importcpp:"#.start(@,@)".}
+proc stop*(node: AudioNode, time: float) {.importcpp:"#.stop(@,@)".}
 
 proc setPeriodicWave*(osc: OscillatorNode, wave: PeriodicWave) {.importcpp:"#.setPeriodicWave(@)".}
 
