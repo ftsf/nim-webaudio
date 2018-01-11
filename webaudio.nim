@@ -4,6 +4,7 @@ import jsffi
 type
   AudioContextObj {.importc.} = object of RootObj
     destination*: ref AudioDestinationNodeObj
+    currentTime*: float
   AudioContext* = ref AudioContextObj
   AudioNodeObj {.importc.} = object of RootObj
     context*: AudioContext
@@ -64,6 +65,9 @@ proc getChannelData*(self: AudioBuffer, channel: int): seq[float32] {.importcpp.
 
 proc start*(node: AudioNode) {.importcpp:"#.start(@)".}
 proc stop*(node: AudioNode) {.importcpp:"#.stop(@)".}
+
+proc start*(node: AudioNode, time: float) {.importcpp:"#.start(@,@)".}
+proc stop*(node: AudioNode, time: float) {.importcpp:"#.start(@,@)".}
 
 proc setPeriodicWave*(osc: OscillatorNode, wave: PeriodicWave) {.importcpp:"#.setPeriodicWave(@)".}
 
