@@ -56,7 +56,7 @@ proc createBufferSource*(context: AudioContext): AudioBufferSourceNode {.importc
 proc createGain*(context: AudioContext): GainNode {.importcpp: "#.createGain(@)".}
 proc createOscillator*(context: AudioContext): OscillatorNode {.importcpp: "#.createOscillator(@)".}
 proc createScriptProcessor*(context: AudioContext, bufferSize, inputChannels, outputChannels: int): ScriptProcessorNode {.importcpp: "#.createScriptProcessor(@)".}
-proc createMediaElementSource*(context: AudioContext, el: HtmlElement): MediaElementAudioSourceNode {.importcpp.}
+proc createMediaElementSource*(context: AudioContext, el: Element): MediaElementAudioSourceNode {.importcpp.}
 
 proc createPeriodicWave*(context: AudioContext, real, imag: openarray[float], options: JsAssoc = {}): PeriodicWave {.importcpp:"#.createPeriodicWave(Float32Array.from(#), Float32Array.from(#))".}
 
