@@ -52,7 +52,7 @@ type
 
 proc newAudioContext*(): AudioContext {.importjs: "new AudioContext()".}
 
-proc createBuffer*(context: AudioContext, numOfChannels, length, sampleRate: float32) {.importjs: "#.createBuffer(@, @, @)"}
+proc createBuffer*(context: AudioContext, numOfChannels, length, sampleRate: int32): AudioBuffer {.importjs: "#.createBuffer(@, @, @)"}
 proc createBufferSource*(context: AudioContext): AudioBufferSourceNode {.importjs: "#.createBufferSource(@)".}
 proc createGain*(context: AudioContext): GainNode {.importjs: "#.createGain(@)".}
 proc createOscillator*(context: AudioContext): OscillatorNode {.importjs: "#.createOscillator(@)".}
