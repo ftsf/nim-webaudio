@@ -77,3 +77,4 @@ proc resume*(ctx: AudioContext) {.importjs:"#.resume(@)".}
 
 proc connect*(node: AudioNode, other: AudioNode): AudioNode {.importjs:"#.connect(@)", discardable.}
 proc disconnect*(node: AudioNode, other: AudioNode) {.importjs:"#.disconnect(@)".}
+proc disconnect*() {.importjs:"#.disconnect()".}

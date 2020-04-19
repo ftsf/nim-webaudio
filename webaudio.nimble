@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.1.0"
+version       = "0.2.0"
 author        = "Jez Kabanov"
 description   = "API for Web Audio (JS)"
 license       = "MIT"
