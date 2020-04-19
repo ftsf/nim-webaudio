@@ -1,4 +1,3 @@
-import unittest
 import webaudio
 import dom
 
@@ -12,7 +11,7 @@ osc.frequency.value = 440.0
 osc.connect(gain)
 osc.start()
 
-var interval = window.setInterval(
+discard window.setInterval(
   proc() =
     if gain.gain.value > 0.0:
       gain.gain.value = gain.gain.value - 0.01
@@ -20,7 +19,7 @@ var interval = window.setInterval(
         gain.gain.value = 0.0
   , 30)
 
-var interval2 = window.setInterval(
+discard window.setInterval(
   proc() =
     osc.frequency.value *= 0.5
     if osc.frequency.value < 20.0:

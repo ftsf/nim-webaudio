@@ -2,19 +2,19 @@ import dom
 import jsffi
 
 type
-  AudioContextObj {.importc.} = object of RootObj
+  AudioContextObj {.importjs: "AudioContext".} = object of RootObj
     destination*: ref AudioDestinationNodeObj
     currentTime*: float
   AudioContext* = ref AudioContextObj
-  AudioNodeObj {.importc.} = object of RootObj
+  AudioNodeObj {.importjs: "AudioNode".} = object of RootObj
     context*: AudioContext
     numberOfInputs*: int
     numberOfOutputs*: int
     channelCount*: int
     channelCountMode*: int
     channelInterpretation*: cstring
-  AudioDestinationNodeObj {.importc.} = object of AudioNodeObj
-  AudioParamObj {.importc.} = object of RootObj
+  AudioDestinationNodeObj {.importjs: "AudioDestinationNode".} = object of AudioNodeObj
+  AudioParamObj {.importjs: "AudioParam".} = object of RootObj
     defaultValue*: float
     maxValue*: float
     minValue*: float
@@ -24,22 +24,22 @@ type
     inputBuffer*: AudioBuffer
     outputBuffer*: AudioBuffer
   AudioProcessingEvent* = ref AudioProcessingEventObj
-  GainNodeObj {.importc.} = object of AudioNodeObj
+  GainNodeObj {.importjs: "GainNode".} = object of AudioNodeObj
     gain*: AudioParam
   GainNode* = ref GainNodeObj
-  OscillatorNodeObj {.importc.} = object of AudioNodeObj
+  OscillatorNodeObj {.importjs: "OscillatorNode".} = object of AudioNodeObj
     `type`*: cstring
     frequency*: AudioParam
     detune*: AudioParam
-  ScriptProcessorNodeObj {.importcpp.} = object of AudioNodeObj
+  ScriptProcessorNodeObj {.importjs: "ScriptProcessorNode", deprecated.} = object of AudioNodeObj
     bufferSize*: int
     onaudioprocess*: proc(e: AudioProcessingEvent)
   OscillatorNode* = ref OscillatorNodeObj
   ScriptProcessorNode* = ref ScriptProcessorNodeObj
   AudioNode* = ref AudioNodeObj
-  AudioBuffer* {.importc.} = ref object of RootObj
+  AudioBuffer* {.importjs: "AudioBuffer".} = ref object of RootObj
     length*: int
-  AudioBufferSourceNode* {.importc.} = ref object of AudioNodeObj
+  AudioBufferSourceNode* {.importjs: "AudioBufferSourceNode".} = ref object of AudioNodeObj
     buffer*: AudioBuffer
     detune*: float
     loop*: bool
@@ -51,28 +51,29 @@ type
   MediaElementAudioSourceNodeObj = object of AudioNodeObj
   MediaElementAudioSourceNode* = ref MediaElementAudioSourceNodeObj
 
-proc newAudioContext*(): AudioContext {.importcpp: "new AudioContext()".}
+proc newAudioContext*(): AudioContext {.importjs: "new AudioContext()".}
 
-proc createBufferSource*(context: AudioContext): AudioBufferSourceNode {.importcpp: "#.createBufferSource(@)".}
-proc createGain*(context: AudioContext): GainNode {.importcpp: "#.createGain(@)".}
-proc createOscillator*(context: AudioContext): OscillatorNode {.importcpp: "#.createOscillator(@)".}
-proc createScriptProcessor*(context: AudioContext, bufferSize, inputChannels, outputChannels: int): ScriptProcessorNode {.importcpp: "#.createScriptProcessor(@)".}
-proc createMediaElementSource*(context: AudioContext, el: HtmlElement): MediaElementAudioSourceNode {.importcpp.}
+proc createBuffer*(context: AudioContext, numOfChannels, length, sampleRate: int32): AudioBuffer {.importjs: "#.createBuffer(@, @, @)"}
+proc createBufferSource*(context: AudioContext): AudioBufferSourceNode {.importjs: "#.createBufferSource(@)".}
+proc createGain*(context: AudioContext): GainNode {.importjs: "#.createGain(@)".}
+proc createOscillator*(context: AudioContext): OscillatorNode {.importjs: "#.createOscillator(@)".}
+proc createScriptProcessor*(context: AudioContext, bufferSize, inputChannels, outputChannels: int): ScriptProcessorNode {.importjs: "#.createScriptProcessor(@)", deprecated.}
+proc createMediaElementSource*(context: AudioContext, el: Element): MediaElementAudioSourceNode {.importjs: "#.createMediaElementSource(@)".}
 
-proc createPeriodicWave*(context: AudioContext, real, imag: openarray[float], options: JsAssoc = {}): PeriodicWave {.importcpp:"#.createPeriodicWave(Float32Array.from(#), Float32Array.from(#))".}
+proc createPeriodicWave*(context: AudioContext, real, imag: openarray[float], options: JsAssoc = {}): PeriodicWave {.importjs:"#.createPeriodicWave(Float32Array.from(#), Float32Array.from(#))".}
 
-proc getChannelData*(self: AudioBuffer, channel: int): seq[float32] {.importcpp.}
+proc getChannelData*(self: AudioBuffer, channel: int): seq[float32] {.importjs: "#.getChannelData(@)".}
 
-proc start*(node: AudioNode) {.importcpp:"#.start(@)".}
-proc stop*(node: AudioNode) {.importcpp:"#.stop(@)".}
+proc start*(node: AudioNode) {.importjs:"#.start(@)".}
+proc stop*(node: AudioNode) {.importjs:"#.stop(@)".}
 
-proc start*(node: AudioNode, time: float) {.importcpp:"#.start(@,@)".}
-proc stop*(node: AudioNode, time: float) {.importcpp:"#.stop(@,@)".}
+proc start*(node: AudioNode, time: float) {.importjs:"#.start(@,@)".}
+proc stop*(node: AudioNode, time: float) {.importjs:"#.stop(@,@)".}
 
-proc setPeriodicWave*(osc: OscillatorNode, wave: PeriodicWave) {.importcpp:"#.setPeriodicWave(@)".}
+proc setPeriodicWave*(osc: OscillatorNode, wave: PeriodicWave) {.importjs:"#.setPeriodicWave(@)".}
 
-proc decodeAudioData*(ctx: AudioContext, audioData: cstring, success: proc(buffer: AudioBuffer), error: proc() = nil) {.importcpp:"#.decodeAudioData(@)".}
-proc resume*(ctx: AudioContext) {.importcpp:"#.resume(@)".}
+proc decodeAudioData*(ctx: AudioContext, audioData: cstring, success: proc(buffer: AudioBuffer), error: proc() = nil) {.importjs:"#.decodeAudioData(@)".}
+proc resume*(ctx: AudioContext) {.importjs:"#.resume(@)".}
 
-proc connect*(node: AudioNode, other: AudioNode): AudioNode {.importcpp:"#.connect(@)", discardable.}
-proc disconnect*(node: AudioNode, other: AudioNode) {.importcpp:"#.disconnect(@)".}
+proc connect*(node: AudioNode, other: AudioNode): AudioNode {.importjs:"#.connect(@)", discardable.}
+proc disconnect*(node: AudioNode, other: AudioNode) {.importjs:"#.disconnect(@)".}
