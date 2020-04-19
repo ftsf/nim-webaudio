@@ -41,11 +41,11 @@ type
     length*: int
   AudioBufferSourceNode* {.importjs: "AudioBufferSourceNode".} = ref object of AudioNodeObj
     buffer*: AudioBuffer
-    detune*: float
+    detune*: AudioParamObj
     loop*: bool
-    loopEnd*: float
-    loopStart*: float
-    playbackRate*: float
+    loopEnd*: AudioParamObj
+    loopStart*: AudioParamObj
+    playbackRate*: AudioParamObj
   PeriodicWaveObj = object of RootObj
   PeriodicWave* = ref PeriodicWaveObj
   MediaElementAudioSourceNodeObj = object of AudioNodeObj
@@ -53,7 +53,7 @@ type
 
 proc newAudioContext*(): AudioContext {.importjs: "new AudioContext()".}
 
-proc createBuffer*(context: AudioContext, numOfChannels, length, sampleRate: int32): AudioBuffer {.importjs: "#.createBuffer(@, @, @)"}
+proc createBuffer*(context: AudioContext, numOfChannels: int, length: int, sampleRate: int): AudioBuffer {.importjs: "#.createBuffer(@)"}
 proc createBufferSource*(context: AudioContext): AudioBufferSourceNode {.importjs: "#.createBufferSource(@)".}
 proc createGain*(context: AudioContext): GainNode {.importjs: "#.createGain(@)".}
 proc createOscillator*(context: AudioContext): OscillatorNode {.importjs: "#.createOscillator(@)".}
@@ -77,4 +77,4 @@ proc resume*(ctx: AudioContext) {.importjs:"#.resume(@)".}
 
 proc connect*(node: AudioNode, other: AudioNode): AudioNode {.importjs:"#.connect(@)", discardable.}
 proc disconnect*(node: AudioNode, other: AudioNode) {.importjs:"#.disconnect(@)".}
-proc disconnect*() {.importjs:"#.disconnect()".}
+proc disconnect*(node: AudioNode) {.importjs:"#.disconnect(@)".}
