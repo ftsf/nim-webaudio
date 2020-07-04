@@ -51,6 +51,10 @@ type
   MediaElementAudioSourceNodeObj = object of AudioNodeObj
   MediaElementAudioSourceNode* = ref MediaElementAudioSourceNodeObj
 
+{.emit:"""
+var AudioContext = window.AudioContext || window.webkitAudioContext || null;
+""".}
+
 proc newAudioContext*(): AudioContext {.importjs: "new AudioContext()".}
 
 proc createBuffer*(context: AudioContext, numOfChannels: int, length: int, sampleRate: int): AudioBuffer {.importjs: "#.createBuffer(@)"}
