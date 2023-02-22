@@ -6,6 +6,7 @@ type
   AudioContextObj {.importjs: "AudioContext".} = object of RootObj
     destination*: ref AudioDestinationNodeObj
     currentTime*: float
+    sampleRate*: float
     state*: cstring
   AudioContext* = ref AudioContextObj
   AudioNodeObj {.importjs: "AudioNode".} = object of RootObj
