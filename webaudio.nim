@@ -2,9 +2,11 @@ import dom
 import jsffi
 
 type
+  # AudioWorkletGlobalScope {.importjs: "AudioContext".} = object of RootObj
   AudioContextObj {.importjs: "AudioContext".} = object of RootObj
     destination*: ref AudioDestinationNodeObj
     currentTime*: float
+    state*: cstring
   AudioContext* = ref AudioContextObj
   AudioNodeObj {.importjs: "AudioNode".} = object of RootObj
     context*: AudioContext
