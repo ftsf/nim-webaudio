@@ -6,6 +6,7 @@ type
   AudioContextObj {.importjs: "AudioContext".} = object of RootObj
     destination*: ref AudioDestinationNodeObj
     currentTime*: float
+    listener*: AudioListener
     sampleRate*: float
     state*: cstring
   AudioContext* = ref AudioContextObj
@@ -22,6 +23,17 @@ type
     maxValue*: float
     minValue*: float
     value*: float
+  AudioListenerObj {.importjs: "AudioListener".} = object of RootObj
+    forwardX*: AudioParam
+    forwardY*: AudioParam 
+    forwardZ*: AudioParam
+    positionX*: AudioParam
+    positionY*: AudioParam
+    positionZ*: AudioParam
+    upX*: AudioParam
+    upY*: AudioParam
+    upZ*: AudioParam
+  AudioListener* = ref AudioListenerObj
   AudioParam* = ref AudioParamObj
   AudioProcessingEventObj = object of Event
     inputBuffer*: AudioBuffer
