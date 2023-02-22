@@ -82,3 +82,11 @@ proc resume*(ctx: AudioContext) {.importjs:"#.resume(@)".}
 proc connect*(node: AudioNode, other: AudioNode): AudioNode {.importjs:"#.connect(@)", discardable.}
 proc disconnect*(node: AudioNode, other: AudioNode) {.importjs:"#.disconnect(@)".}
 proc disconnect*(node: AudioNode) {.importjs:"#.disconnect(@)".}
+
+proc cancelAndHoldAtTime*(param: AudioParam, cancelTime: float) {.importjs:"#.cancelAndHoldAtTime(@,@)".}
+proc cancelScheduledValues*(param: AudioParam, startTime: float) {.importjs:"#.cancelScheduledValues(@,@)".}
+proc exponentialRampToValueAtTime*(param: AudioParam, value: float, endTime: float) {.importjs:"#.exponentialRampToValueAtTime(@,@,@)".}
+proc linearRampToValueAtTime*(param: AudioParam, value: float, endTime: float) {.importjs:"#.linearRampToValueAtTime(@,@,@)".}
+proc setTargetAtTime*(param: AudioParam, value: float, startTime: float, timeConstant: float) {.importjs:"#.setTargetAtTime*((@,@,@)".}
+proc setValueAtTime*(param: AudioParam, value: float, startTime: float) {.importjs:"#.setValueAtTime(@,@,@)".}
+proc setValueCurveAtTime*(param: AudioParam, values:openArray[float], startTime: float, duration: float) {.importjs:"#.setValueCurveAtTime(@,@,@,@)".}
