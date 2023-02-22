@@ -2,9 +2,13 @@ import dom
 import jsffi
 
 type
+  # AudioWorkletGlobalScope {.importjs: "AudioContext".} = object of RootObj
   AudioContextObj {.importjs: "AudioContext".} = object of RootObj
     destination*: ref AudioDestinationNodeObj
     currentTime*: float
+    listener*: AudioListener
+    sampleRate*: float
+    state*: cstring
   AudioContext* = ref AudioContextObj
   AudioNodeObj {.importjs: "AudioNode".} = object of RootObj
     context*: AudioContext
@@ -19,6 +23,17 @@ type
     maxValue*: float
     minValue*: float
     value*: float
+  AudioListenerObj {.importjs: "AudioListener".} = object of RootObj
+    forwardX*: AudioParam
+    forwardY*: AudioParam 
+    forwardZ*: AudioParam
+    positionX*: AudioParam
+    positionY*: AudioParam
+    positionZ*: AudioParam
+    upX*: AudioParam
+    upY*: AudioParam
+    upZ*: AudioParam
+  AudioListener* = ref AudioListenerObj
   AudioParam* = ref AudioParamObj
   AudioProcessingEventObj = object of Event
     inputBuffer*: AudioBuffer
@@ -77,6 +92,7 @@ proc stop*(node: AudioNode, time: float) {.importjs:"#.stop(@,@)".}
 proc setPeriodicWave*(osc: OscillatorNode, wave: PeriodicWave) {.importjs:"#.setPeriodicWave(@)".}
 
 proc decodeAudioData*(ctx: AudioContext, audioData: cstring, success: proc(buffer: AudioBuffer), error: proc() = nil) {.importjs:"#.decodeAudioData(@)".}
+proc suspend*(ctx: AudioContext) {.importjs:"#.suspend(@)".}
 proc resume*(ctx: AudioContext) {.importjs:"#.resume(@)".}
 
 proc connect*(node: AudioNode, other: AudioNode): AudioNode {.importjs:"#.connect(@)", discardable.}
