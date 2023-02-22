@@ -77,6 +77,7 @@ proc stop*(node: AudioNode, time: float) {.importjs:"#.stop(@,@)".}
 proc setPeriodicWave*(osc: OscillatorNode, wave: PeriodicWave) {.importjs:"#.setPeriodicWave(@)".}
 
 proc decodeAudioData*(ctx: AudioContext, audioData: cstring, success: proc(buffer: AudioBuffer), error: proc() = nil) {.importjs:"#.decodeAudioData(@)".}
+proc suspend*(ctx: AudioContext) {.importjs:"#.suspend(@)".}
 proc resume*(ctx: AudioContext) {.importjs:"#.resume(@)".}
 
 proc connect*(node: AudioNode, other: AudioNode): AudioNode {.importjs:"#.connect(@)", discardable.}
